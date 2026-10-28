@@ -34,10 +34,14 @@ updates:
         update-types:
           - patch
     ignore:
-      # @vitejs/plugin-react 6.x declares a peer dependency on vite ^8.0.0, but
-      # this project is pinned to vite 7 (and @tailwindcss/vite 4.1.x plus
-      # vitest 3.x both cap at vite 7). Skip the 6.x major until the whole
-      # toolchain can move to vite 8 together.
+      # vite and @vitejs/plugin-react have to cross majors together: plugin-react
+      # 6.x requires vite ^8.0.0, while vite 8 is currently blocked because
+      # @tailwindcss/vite 4.1.x peers on vite ^5.2 || ^6 || ^7 and vitest 3.x
+      # depends on vite ^5 || ^6 || ^7. Ignore both majors until that whole
+      # toolchain can move to vite 8 in a single change.
       - dependency-name: "@vitejs/plugin-react"
+        update-types:
+          - version-update:semver-major
+      - dependency-name: "vite"
         update-types:
           - version-update:semver-major
